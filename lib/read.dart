@@ -7,13 +7,18 @@ import 'personVo.dart';
 class ReadPage extends StatelessWidget {
   const ReadPage({super.key});
 
+  //기본레이아웃
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("읽기 페이지"),
         ),
-        body: _ReadPage()
+        body: Container(
+          padding: EdgeInsets.all(15),
+          color: Color(0xFFd6d6d6),
+          child: _ReadPage(),
+        )
     );
   }
 }
@@ -42,8 +47,7 @@ class _ReadPage extends StatefulWidget {
 //할일 정의 클래스(통신, 데이터 적용)
 class _ReadPageState extends State<_ReadPage> {
   //변수
-  late Future<
-      PersonVo> personVoFuture; //실시간이 아닌 미래 개념이라 담길수도 안담길수도 있음. 그래서 late 붙이면 시점이 끝날때 담아준다.
+  late Future<PersonVo> personVoFuture; //실시간이 아닌 미래 개념이라 담길수도 안담길수도 있음. 그래서 late 붙이면 시점이 끝날때 담아준다.
 
   //초기화함수 (1번만 실행됨)
   @override
@@ -71,10 +75,10 @@ class _ReadPageState extends State<_ReadPage> {
         } else if (!snapshot.hasData) {
           return Center(child: Text('데이터가 없습니다.'));
         } else { //데이터가 있으면
-          return Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
+          return Column(
+
               children: [
+
                 Row(
                   children: [
                     Container(
@@ -82,13 +86,13 @@ class _ReadPageState extends State<_ReadPage> {
                         height: 50,
                         alignment: Alignment.centerLeft,
                         // snapshot.data!.personId //!는 백프로 널이 아니다.라는 뜻
-                        // color: Color(0xFFff0000),
+                        color: Color(0xFFffffff),
                         child: Text("번호", style: TextStyle(fontSize: 20),)),
                     Container(
                         width: 360,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFF00ff33),
+                        color: Color(0xFFffffff),
                         child: Text("${snapshot.data!.personId}", style: TextStyle(fontSize: 20),))
                   ],
                 ),
@@ -98,13 +102,13 @@ class _ReadPageState extends State<_ReadPage> {
                         width: 100,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFFff0000),
+                        color: Color(0xFFffffff),
                         child: Text("이름", style: TextStyle(fontSize: 20),)),
                     Container(
                         width: 360,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFF00ff33),
+                        color: Color(0xFFffffff),
                         child: Text("${snapshot.data!.name}", style: TextStyle(fontSize: 20),))
                   ],
                 ),
@@ -114,13 +118,13 @@ class _ReadPageState extends State<_ReadPage> {
                         width: 100,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFFff0000),
+                        color: Color(0xFFffffff),
                         child: Text("핸드폰", style: TextStyle(fontSize: 20),)),
                     Container(
                         width: 360,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFF00ff33),
+                        color: Color(0xFFffffff),
                         child: Text(
                           "${snapshot.data!.hp}", style: TextStyle(fontSize: 20),))
                   ],
@@ -131,21 +135,19 @@ class _ReadPageState extends State<_ReadPage> {
                         width: 100,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFFff0000),
+                        color: Color(0xFFffffff),
                         child: Text("회사", style: TextStyle(fontSize: 20),)),
                     Container(
                         width: 360,
                         height: 50,
                         alignment: Alignment.centerLeft,
-                        // color: Color(0xFF00ff33),
+                        color: Color(0xFFffffff),
                         child: Text(
                           "${snapshot.data!.company}", style: TextStyle(fontSize: 20),))
                   ],
                 ),
               ],
-            ),
-
-          );
+            );
 
 
       } // 데이터가있으면
