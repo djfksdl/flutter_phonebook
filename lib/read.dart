@@ -46,7 +46,11 @@ class _ReadPage extends StatefulWidget {
 
 //할일 정의 클래스(통신, 데이터 적용)
 class _ReadPageState extends State<_ReadPage> {
-  //변수
+
+  //라우터로 전달받은 personId
+  // final args = ModalRoute.of(context)!.settings.arguments as Map; // as Map은 형변환 -> 오류나는 이유 : 빌드가 되어야 context가 완성이 되기때문에 지금 상태에서는 context가 없어서 못가져온다.
+
+  //미래의 정우서 데이터가 담길거야
   late Future<PersonVo> personVoFuture; //실시간이 아닌 미래 개념이라 담길수도 안담길수도 있음. 그래서 late 붙이면 시점이 끝날때 담아준다.
 
   //초기화함수 (1번만 실행됨)
@@ -56,7 +60,7 @@ class _ReadPageState extends State<_ReadPage> {
 
     print("build():데이터 가져오기 전");
     //필요시 추가 코드  //데이터 불러오기 메소드 호출
-    personVoFuture = getPersonByNo();
+    // personVoFuture = getPersonByNo();//번호를 알아내서 먼저 가져와야하는데 밑에 context가 먼저 알아서 가져오게 됨. 근데 실행은 얘가 먼저됨. 그래서 밑에 build할때 넣어줌
 
     print("build():데이터 가져온 후");
   }
@@ -64,6 +68,16 @@ class _ReadPageState extends State<_ReadPage> {
   //화면 그리기
   @override
   Widget build(BuildContext context) {
+
+    //ModalRoute를 통해 현재 페이지에 전달된  arguments를 가져옵니다.
+    late final args = ModalRoute.of(context)!.settings.arguments as Map;
+    //'personId'키를 사용하여 값을 추출함
+    late final personId = args['personId'];
+    personVoFuture = getPersonByNo(personId);
+    print("---------------");
+    print(personId);
+    print("---------------");
+
     print("build():그리기 작업");
     return FutureBuilder(
       future: personVoFuture, //Future<> 함수명, 으로 받은 데이타
@@ -157,7 +171,7 @@ class _ReadPageState extends State<_ReadPage> {
   }
 
   //3번(정우성) 데이터 가져오기 return 그림x
-  Future<PersonVo> getPersonByNo() async {
+  Future<PersonVo> getPersonByNo(int pId) async {
     print("데이터 가져오는 중");
     try {
       /*----요청처리-------------------*/
@@ -169,7 +183,7 @@ class _ReadPageState extends State<_ReadPage> {
 
       // 서버 요청
       final response = await dio.get(
-        'http://15.164.245.216:9000/api/persons/4',
+        'http://15.164.245.216:9000/api/persons/${pId}',
         // 'http://localhost:9000/api/phonebooks/5', --Map으로는 제대로 json으로 바뀔지는 미지수임. Vo로 바꾸는게 좋을듯
       );
 
